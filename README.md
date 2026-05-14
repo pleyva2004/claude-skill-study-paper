@@ -18,7 +18,7 @@ Run `/study-paper https://arxiv.org/abs/<id>` inside Claude Code and the skill w
 | 3 — Opinion Capture | `03-opinions.md` | Empty template — **you fill it in**, the skill never fabricates |
 | 4 — Sandbox | `sandbox/` (subdirectory) | Minimal CPU-runnable PyTorch experiment probing one paper claim |
 | 5 — Literature Review | `04-literature-review.tex` + `references.bib` | Standalone-compilable LaTeX, citation-ready, drop-in for a survey paper |
-| 6 — Publish (final delivery) | `<slug>` GitHub repo | Entire study dir (all of the above + top-level `README.md`) published as one public repo |
+| 6 — Publish (final delivery) | `<slug>` GitHub repo (with CI-rendered PDFs) | Entire study dir (all of the above + top-level `README.md` + `.github/workflows/render.yml`) published as one public repo. GitHub Actions auto-compiles `.tex` → `pdfs/*.pdf` on every push. |
 
 All artifacts land under `~/ai-research-studies/<slug>/`.
 

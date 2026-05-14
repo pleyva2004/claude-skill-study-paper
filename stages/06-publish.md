@@ -11,9 +11,11 @@ This stage runs **after** Stage 5 (literature review) so the published repo cont
 - Everything in `~/ai-research-studies/<slug>/` produced by Stages 0-5
 - User's GitHub username (read from `~/.config/study-paper/config.json` if present, else prompt and persist)
 
-## Step A: Top-level README + .gitignore
+## Step A: Top-level README + .gitignore + CI render workflow
 
-Write `~/ai-research-studies/<slug>/README.md` using `templates/study-README.md`. This README frames the study as a coherent published artifact — links to all sub-files, explains the paper, gives build instructions for the lit review (`pdflatex`) and sandbox (`pip install + python`), and notes the dual license (paper = CC BY 4.0 if applicable, rest = MIT).
+Write `~/ai-research-studies/<slug>/README.md` using `templates/study-README.md`. This README frames the study as a coherent published artifact — links to all sub-files, explains the paper, gives build instructions for the lit review (`pdflatex`) and sandbox (`pip install + python`), and notes the dual license (paper = CC BY 4.0 if applicable, rest = MIT). Include the **Render LaTeX** build status badge and PDF links — these light up once the workflow runs on first push.
+
+Copy `templates/render-workflow.yml` to `~/ai-research-studies/<slug>/.github/workflows/render.yml`. On every push that touches `.tex` or `.bib` files, this workflow compiles them with `pdflatex` via the `xu-cheng/latex-action` GitHub Action and auto-commits the resulting PDFs to `pdfs/` with a `[skip ci]` marker.
 
 Write `~/ai-research-studies/<slug>/.gitignore`:
 ```
@@ -50,6 +52,7 @@ git init -b main
 git add 01-interview-prep.md 02-math-deep-dive.md 03-opinions.md \
         04-literature-review.tex references.bib metadata.json \
         source.pdf README.md .gitignore \
+        .github/workflows/render.yml \
         sandbox/README.md sandbox/experiment.py sandbox/requirements.txt
 git commit -m "Initial commit: full study artifacts for arxiv:<id>"
 ```
