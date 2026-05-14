@@ -1,6 +1,6 @@
 # Stage 6 — Publish (whole study to GitHub)
 
-**Goal:** Publish the entire study directory to GitHub as `ai-study-<slug>` — including interview prep, math deep dive, opinion capture, lit review, references, source PDF, and sandbox subdir. **The repo is the study, not just the sandbox.**
+**Goal:** Publish the entire study directory to GitHub as `<slug>` — including interview prep, math deep dive, opinion capture, lit review, references, source PDF, and sandbox subdir. **The repo is the study, not just the sandbox.**
 
 ## Mandate
 
@@ -64,7 +64,7 @@ Two paths depending on environment:
 
 ```shell
 gh auth status >/dev/null 2>&1 && \
-gh repo create ai-study-<slug> --public --source=. --push \
+gh repo create <slug> --public --source=. --push \
   --description "Layered study of: <paper title> (arxiv:<id>)"
 ```
 
@@ -76,13 +76,13 @@ If `gh` is missing or unauthed, fall back to SSH:
 
 1. Print the pre-filled GitHub "new repo" URL:
    ```
-   https://github.com/new?name=ai-study-<slug>&description=Layered+study+of+arxiv+<id>&visibility=public
+   https://github.com/new?name=<slug>&description=Layered+study+of+arxiv+<id>&visibility=public
    ```
    Tell the user: open this URL, click "Create repository", **leave "Add a README" / `.gitignore` / license unchecked**, then say "go".
 
 2. After confirmation, push via SSH (no PAT needed if SSH key is registered with GitHub):
    ```shell
-   git remote add origin git@github.com:<user>/ai-study-<slug>.git
+   git remote add origin git@github.com:<user>/<slug>.git
    git push -u origin main
    ```
 
@@ -90,11 +90,11 @@ If `gh` is missing or unauthed, fall back to SSH:
 
 ## Step D: Update metadata + report
 
-Update `metadata.json` with `"github_url": "https://github.com/<user>/ai-study-<slug>"`. Edit `04-literature-review.tex` to replace any `<user>` placeholder in the Sandbox Probe section with the real username, then commit + push the fix.
+Update `metadata.json` with `"github_url": "https://github.com/<user>/<slug>"`. Edit `04-literature-review.tex` to replace any `<user>` placeholder in the Sandbox Probe section with the real username, then commit + push the fix.
 
 Output:
 ```
-Published: https://github.com/<user>/ai-study-<slug>
+Published: https://github.com/<user>/<slug>
 Files in repo: <count>
 Total size: <size>
 Study fully complete.

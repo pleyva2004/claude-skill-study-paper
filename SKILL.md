@@ -15,7 +15,7 @@ A multi-stage skill that takes one paper as input and produces five artifacts:
 3. `03-opinions.md` — structured prompt template the **user** fills in (skill never fabricates opinions)
 4. `sandbox/` — minimal runnable experiment probing a paper claim (lives as a subdirectory of the study repo, not its own repo)
 5. `04-literature-review.tex` (+ `references.bib`) — research-ready LaTeX literature-review entry. Publication-quality, citation-ready, standalone-compilable.
-6. `ai-study-<slug>` GitHub repo — the **entire study directory** (1-5 above plus `README.md` and `source.pdf`) published as one public repo. **Final delivery.**
+6. `<slug>` GitHub repo — the **entire study directory** (1-5 above plus `README.md` and `source.pdf`) published as one public repo. **Final delivery.**
 
 All artifacts land under `~/ai-research-studies/<slug>/`.
 
@@ -66,7 +66,7 @@ Nothing. Skill is lightweight until invoked.
 @stages/03-opinion-capture.md — Stage 3: opinion template + wait protocol
 @stages/04-sandbox.md — Stage 4: sandbox scaffold (local only, no git)
 @stages/05-literature-review.md — Stage 5: literature-review (LaTeX) generation, delegates LaTeX formatting rules to the `write-latex` skill
-@stages/06-publish.md — Stage 6: publish entire study dir as `ai-study-<slug>` GitHub repo (final delivery)
+@stages/06-publish.md — Stage 6: publish entire study dir as `<slug>` GitHub repo (final delivery)
 
 ## Load on Demand
 @templates/01-interview-prep.md
@@ -89,7 +89,7 @@ When invoked with input, run sequentially:
 4. **Stage 3 (Opinion Capture)** — load `stages/03-opinion-capture.md` and `templates/03-opinions.md`. Drop template, **stop and ask user to fill in**.
 5. **Stage 4 (Sandbox)** — only after Stage 3 returns. Load `stages/04-sandbox.md` and `templates/sandbox-README.md`. Scaffold `sandbox/` locally as a subdirectory of the study dir. **No git operations** — publishing happens in Stage 6.
 6. **Stage 5 (Literature Review)** — load `stages/05-literature-review.md` and `templates/04-literature-review.tex` + `templates/references.bib`. Generate `04-literature-review.tex` and `references.bib`. Compile-test with `pdflatex` if available.
-7. **Stage 6 (Publish — final delivery)** — load `stages/06-publish.md` and `templates/study-README.md`. Write top-level README + `.gitignore` for the study dir. Git init at the study root. Commit all artifacts. Publish entire study dir as `ai-study-<slug>` GitHub repo via `gh` if available, else via SSH after the user creates the empty repo from a pre-filled URL.
+7. **Stage 6 (Publish — final delivery)** — load `stages/06-publish.md` and `templates/study-README.md`. Write top-level README + `.gitignore` for the study dir. Git init at the study root. Commit all artifacts. Publish entire study dir as `<slug>` GitHub repo via `gh` if available, else via SSH after the user creates the empty repo from a pre-filled URL.
 
 ## Resume Logic
 
