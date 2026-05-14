@@ -1,0 +1,65 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  citecolor=blue!50!black,
+  urlcolor=blue!50!black
+}
+
+\title{{{title}}}
+\author{Literature review entry}
+\date{Studied: {{date}} \\ \texttt{{{arxiv_id}}}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+{{abstract_paragraph}}
+\end{abstract}
+
+\section{Background and Motivation}
+{{background_paragraph}}
+
+\section{Technical Approach}
+\label{sec:method}
+
+{{method_intro_paragraph}}
+
+\paragraph{Definitions.}
+{{definitions_paragraph_with_inline_math}}
+
+\paragraph{Central object.}
+The central quantity studied is
+\begin{equation}
+{{central_equation}}
+\label{eq:central}
+\end{equation}
+where {{symbol_glossary}}.
+
+\paragraph{Method.}
+{{method_walkthrough}}
+
+\section{Key Results}
+{{results_paragraph}}
+
+\section{Position in the Literature}
+{{position_paragraph_with_citations}}
+
+\section{Limitations and Open Questions}
+{{limitations_paragraph}}
+
+\section*{Sandbox Probe}
+{{sandbox_paragraph_optional}}
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}
