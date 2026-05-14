@@ -33,6 +33,8 @@ The user reviews and refines both before Stage 7 publishes. Stage 7's commit lis
 5. Write `improvements/README.md` indexing the prototypes, and `improvements/requirements.txt`.
 6. **Back-update `01-interview-prep.md`** — replace the `{{extension_*}}` placeholders in the "My proposed extensions" section with one-line summaries of the top 2–3 proposals. The user should be able to riff on each in a brainstorm interview without re-reading `05-improvements.tex`.
 7. **Generate `interview-handout.tex`** (or update if it exists) from `templates/interview-handout.tex`. Pull "One-Liner / What's Novel / Math in 60s / What I'd Push Back On" from `01-interview-prep.md`. Fill the new "My One Proposed Extension" section with a single-paragraph distillation of the highest-leverage proposal from `05-improvements.tex` (the same one called out in `05-improvements.tex`'s Closing section). Fill "My One Question" from the math deep dive's flagged gaps.
+
+   ⚠ **Citation rule for the handout:** `interview-handout.tex` does NOT load `natbib` and has no `\bibliography{}` — it's a single-page printable, not a paper. Any reference to prior work in the handout MUST be inline plaintext (e.g. `(Shao et al.\ 2024)`), never `\citep{}` / `\citet{}`. A `\citep` in the handout will fail `pdflatex` with an undefined-control-sequence error and the CI render workflow will fail. Citations in `05-improvements.tex` use `\citep{}` as usual since that file loads natbib + references.bib.
 8. Smoke-test compile (`pdflatex 05-improvements.tex` and `pdflatex interview-handout.tex`) if `pdflatex` is available; lint syntax otherwise.
 
 ## Required Sections in the .tex Output
