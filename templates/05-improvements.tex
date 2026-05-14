@@ -1,0 +1,81 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  citecolor=blue!50!black,
+  urlcolor=blue!50!black
+}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  frame=single,
+  numbers=left,
+  numberstyle=\tiny,
+  showstringspaces=false
+}
+
+\title{Proposed Improvements to \citet{ {{bibkey}} }}
+\author{Forward-thinking proposals}
+\date{Studied: {{date}} \\ \texttt{ {{arxiv_id}} }}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+{{abstract_paragraph}}
+\end{abstract}
+
+\section*{Mathematical Improvements}
+
+{{math_intro_paragraph}}
+
+\subsection*{ {{math_proposal_1_title}} }
+{{math_proposal_1_body_with_equations_and_citations}}
+
+\subsection*{ {{math_proposal_2_title}} }
+{{math_proposal_2_body}}
+
+\section*{Implementation / Code Improvements}
+
+{{code_intro_paragraph}}
+
+\subsection*{ {{code_proposal_1_title}} }
+{{code_proposal_1_body}}
+
+A runnable prototype lives at \texttt{improvements/{{code_proposal_1_slug}}.py}. Output:
+\begin{lstlisting}
+{{code_proposal_1_expected_output}}
+\end{lstlisting}
+
+\section*{Experimental Extensions}
+
+{{experimental_intro_paragraph}}
+
+\subsection*{ {{experimental_proposal_1_title}} }
+{{experimental_proposal_1_body_with_citations}}
+
+\section*{Theoretical / Conceptual Connections}
+
+{{theoretical_intro_paragraph}}
+
+\subsection*{ {{theoretical_proposal_1_title}} }
+{{theoretical_proposal_1_body_with_citations}}
+
+\section*{Closing}
+
+{{closing_paragraph_or_TODO_placeholder}}
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}

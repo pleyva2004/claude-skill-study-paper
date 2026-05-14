@@ -1,6 +1,6 @@
-# Stage 6 — Publish (whole study to GitHub)
+# Stage 7 — Publish (whole study to GitHub)
 
-**Goal:** Publish the entire study directory to GitHub as `<slug>` — including interview prep, math deep dive, opinion capture, lit review, references, source PDF, and sandbox subdir. **The repo is the study, not just the sandbox.**
+**Goal:** Publish the entire study directory to GitHub as `<slug>` — including interview prep, math deep dive, opinion capture, lit review, improvements + prototypes, references, source PDF, and sandbox subdir. **The repo is the study, not just the sandbox.**
 
 ## Mandate
 
@@ -50,10 +50,11 @@ venv/
 cd ~/ai-research-studies/<slug>/
 git init -b main
 git add 01-interview-prep.md 02-math-deep-dive.md 03-opinions.md \
-        04-literature-review.tex references.bib metadata.json \
+        04-literature-review.tex 05-improvements.tex references.bib metadata.json \
         source.pdf README.md .gitignore \
         .github/workflows/render.yml \
-        sandbox/README.md sandbox/experiment.py sandbox/requirements.txt
+        sandbox/README.md sandbox/experiment.py sandbox/requirements.txt \
+        improvements/README.md improvements/requirements.txt improvements/*.py
 git commit -m "Initial commit: full study artifacts for arxiv:<id>"
 ```
 

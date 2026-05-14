@@ -18,7 +18,8 @@ Run `/study-paper https://arxiv.org/abs/<id>` inside Claude Code and the skill w
 | 3 — Opinion Capture | `03-opinions.md` | Empty template — **you fill it in**, the skill never fabricates |
 | 4 — Sandbox | `sandbox/` (subdirectory) | Minimal CPU-runnable PyTorch experiment probing one paper claim |
 | 5 — Literature Review | `04-literature-review.tex` + `references.bib` | Standalone-compilable LaTeX, citation-ready, drop-in for a survey paper |
-| 6 — Publish (final delivery) | `<slug>` GitHub repo (with CI-rendered PDFs) | Entire study dir (all of the above + top-level `README.md` + `.github/workflows/render.yml`) published as one public repo. GitHub Actions auto-compiles `.tex` → `pdfs/*.pdf` on every push. |
+| 6 — Suggest Improvements | `05-improvements.tex` + `improvements/` | Forward-looking proposals across math, code, experiments, and theory — with runnable Python prototypes. The one artifact Claude is allowed to draft on your behalf. |
+| 7 — Publish (final delivery) | `<slug>` GitHub repo (with CI-rendered PDFs) | Entire study dir (all of the above + top-level `README.md` + `.github/workflows/render.yml`) published as one public repo. GitHub Actions auto-compiles every `.tex` → `pdfs/*.pdf` on every push. |
 
 All artifacts land under `~/ai-research-studies/<slug>/`.
 
@@ -29,7 +30,8 @@ All artifacts land under `~/ai-research-studies/<slug>/`.
 - **Opinion capture** keeps your voice yours. The skill prompts the right questions and stops; it does not generate opinions on your behalf.
 - **Sandbox** turns reading into building — one runnable experiment per paper, lives inside the study repo as a subdirectory.
 - **Literature review** is the research-ready artifact — pure LaTeX with `\citep`/`\citet`, drop-in suitable for a survey paper, related-work section, or your master lit-review document.
-- **Publish** is the final delivery — the entire study dir (all five artifact types plus a top-level repo README) goes up as a single `<slug>` public GitHub repo, citable and shareable.
+- **Suggest Improvements** is the forward-thinking step — every paper becomes a launchpad, not a closed loop. Math, code, experimental, and theoretical proposals, each citation-anchored against the same bib. Code proposals get runnable prototypes.
+- **Publish** is the final delivery — the entire study dir (all six artifact types plus a top-level repo README) goes up as a single `<slug>` public GitHub repo, citable and shareable.
 
 ## Install
 
@@ -82,12 +84,16 @@ study-paper/
 │   ├── 03-opinion-capture.md
 │   ├── 04-sandbox.md
 │   ├── 05-literature-review.md
-│   └── 06-publish.md
+│   ├── 06-suggest-improvements.md
+│   └── 07-publish.md
 └── templates/
     ├── 01-interview-prep.md
     ├── 02-math-deep-dive.md
     ├── 03-opinions.md
     ├── 04-literature-review.tex
+    ├── 05-improvements.tex
+    ├── improvements-README.md
+    ├── render-workflow.yml
     ├── references.bib
     ├── sandbox-README.md
     └── study-README.md
