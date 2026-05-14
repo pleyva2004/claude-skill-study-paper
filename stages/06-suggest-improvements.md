@@ -23,7 +23,7 @@ The user reviews and refines both before Stage 7 publishes. Stage 7's commit lis
 ## Method
 
 1. Load all five inputs via `ctx_execute_file` if any are large.
-2. Load `templates/05-improvements.tex` and `templates/improvements-README.md`.
+2. Load `templates/05-improvements.tex`, `templates/improvements-README.md`, and `templates/interview-handout.tex`.
 3. For each of the four categories, draft 1–3 concrete proposals. Each proposal must:
    - State the proposal precisely (math, code change, experiment design, or conceptual link)
    - `\citep{}` related work from `references.bib`
@@ -31,7 +31,9 @@ The user reviews and refines both before Stage 7 publishes. Stage 7's commit lis
    - Flag whether a prototype lives in `improvements/`
 4. For each Implementation/Code Improvement that is feasible to prototype (CPU, <60s, single .py file): write a runnable Python file to `improvements/<proposal-slug>.py`.
 5. Write `improvements/README.md` indexing the prototypes, and `improvements/requirements.txt`.
-6. Smoke-test compile (`pdflatex 05-improvements.tex`) if `pdflatex` is available; lint syntax otherwise.
+6. **Back-update `01-interview-prep.md`** — replace the `{{extension_*}}` placeholders in the "My proposed extensions" section with one-line summaries of the top 2–3 proposals. The user should be able to riff on each in a brainstorm interview without re-reading `05-improvements.tex`.
+7. **Generate `interview-handout.tex`** (or update if it exists) from `templates/interview-handout.tex`. Pull "One-Liner / What's Novel / Math in 60s / What I'd Push Back On" from `01-interview-prep.md`. Fill the new "My One Proposed Extension" section with a single-paragraph distillation of the highest-leverage proposal from `05-improvements.tex` (the same one called out in `05-improvements.tex`'s Closing section). Fill "My One Question" from the math deep dive's flagged gaps.
+8. Smoke-test compile (`pdflatex 05-improvements.tex` and `pdflatex interview-handout.tex`) if `pdflatex` is available; lint syntax otherwise.
 
 ## Required Sections in the .tex Output
 
@@ -72,6 +74,8 @@ Inherited from [`write-latex`](../../write-latex/SKILL.md) skill:
 ```
 Wrote: 05-improvements.tex (~<word count> words, <subsection count> proposals, <citation count> cites)
 Wrote: improvements/ (<n> prototypes + README + requirements.txt)
+Updated: 01-interview-prep.md (added "My proposed extensions" section)
+Wrote: interview-handout.tex (one-page printable with proposed-extension section)
 Compile check: <PASS|FAIL|SKIPPED — pdflatex not found>
 Ready for Stage 7 (publish). Continue?
 ```

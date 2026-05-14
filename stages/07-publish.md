@@ -50,7 +50,8 @@ venv/
 cd ~/ai-research-studies/<slug>/
 git init -b main
 git add 01-interview-prep.md 02-math-deep-dive.md 03-opinions.md \
-        04-literature-review.tex 05-improvements.tex references.bib metadata.json \
+        04-literature-review.tex 05-improvements.tex interview-handout.tex \
+        references.bib metadata.json \
         source.pdf README.md .gitignore \
         .github/workflows/render.yml \
         sandbox/README.md sandbox/experiment.py sandbox/requirements.txt \

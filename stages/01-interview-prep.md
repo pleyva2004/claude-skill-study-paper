@@ -22,6 +22,7 @@
 | **What's mathematically clever** | 2–3 bullets | Point at the actual derivation/identity that makes it work; brief LaTeX OK |
 | **What I'd push back on** | 2–4 bullets | Real critiques: assumptions, missing baselines, scope of claim, suspicious experimental choices |
 | **Open questions** | 2–3 bullets | What you'd ask the authors; what the next paper should answer |
+| **My proposed extensions** | placeholder | Leave the `{{extension_*}}` placeholders intact — Stage 6 fills these in after drafting `05-improvements.tex` |
 
 ## Style Rules
 

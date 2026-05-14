@@ -1,0 +1,71 @@
+\iffalse
+One-page printable interview handout for {{title}}
+arxiv:{{arxiv_id}}
+Generated in Stage 6 (Suggest Improvements) so it can include "My One
+Proposed Extension" alongside the paper summary.
+Conforms to write-latex skill rules:
+  - no fontspec
+  - \section* (unnumbered) by default
+  - pdflatex-clean
+  - comments only inside \iffalse ... \fi
+\fi
+
+\documentclass[10pt]{article}
+
+\usepackage[letterpaper, margin=0.6in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{titlesec}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  citecolor=blue!50!black,
+  urlcolor=blue!50!black
+}
+
+\titleformat{\section}{\large\bfseries}{}{0pt}{}
+\titlespacing*{\section}{0pt}{6pt}{2pt}
+
+\setlist[itemize]{leftmargin=*, topsep=1pt, itemsep=1pt}
+
+\pagenumbering{gobble}
+
+\begin{document}
+
+\begin{center}
+  {\Large\textbf{ {{first_author}} et al.\ {{year}} --- {{title_short}} }}\\[2pt]
+  {\small {{subtitle}} \quad\textbar\quad arXiv:{{arxiv_id}} \quad\textbar\quad \href{ {{github_url}} }{my study repo}}
+\end{center}
+
+\section*{One-Liner}
+{{one_liner}}
+
+\section*{What's Novel}
+\begin{itemize}
+  \item {{novel_1}}
+  \item {{novel_2}}
+  \item {{novel_3}}
+\end{itemize}
+
+\section*{Math in 60 Seconds}
+{{math_in_60s_with_equations}}
+
+\section*{What I'd Push Back On}
+\begin{itemize}
+  \item {{pushback_1}}
+  \item {{pushback_2}}
+\end{itemize}
+
+\section*{My One Proposed Extension}
+{{proposed_extension_paragraph}}
+
+\emph{Full proposal set: \texttt{05-improvements.tex} in the study repo.}
+
+\section*{My One Question}
+\emph{ {{my_one_question}} }
+
+\end{document}
