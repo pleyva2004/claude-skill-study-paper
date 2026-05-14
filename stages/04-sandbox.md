@@ -1,6 +1,6 @@
 # Stage 4 — Sandbox Scaffold
 
-**Goal:** Generate a minimal runnable experiment probing one claim from the paper, then publish to GitHub as `ai-study-<slug>`.
+**Goal:** Generate a minimal runnable experiment probing one claim from the paper. **Local scaffold only — no git operations.** Publishing happens in Stage 6.
 
 ## Step A: Categorize
 
@@ -27,8 +27,9 @@ sandbox/
   requirements.txt    # PyTorch by default; JAX only if paper uses JAX
   experiment.py       # main script — runnable end-to-end
   utils.py            # helpers if needed
-  .gitignore          # standard Python ignores + checkpoints
 ```
+
+Use `templates/sandbox-README.md` as the sub-README template — it now positions the sandbox as a subdirectory of the larger study repo (not a standalone repo).
 
 Defaults:
 - **PyTorch** unless paper uses JAX.
@@ -36,35 +37,14 @@ Defaults:
 - **Single command to run**: `python experiment.py` should work after `pip install -r requirements.txt`.
 - README states: paper title + arxiv link, the specific claim being probed, the experiment design, expected output, "what would falsify the claim".
 
-Use `templates/sandbox-README.md` as the README template.
+## Step C: Show
 
-## Step C: Show + Confirm
-
-Show the user:
-- File tree of `sandbox/`
-- Diff/preview of each file
-- The exact `gh repo create` command that will run
-
-**Wait for explicit confirmation** before publishing. Do not auto-push.
-
-## Step D: Publish
-
-On confirmation, run from inside `sandbox/`:
-```
-git init -b main
-git add .
-git commit -m "Initial scaffold for ai-study-<slug>"
-gh repo create ai-study-<slug> --public --source=. --push --description "Sandbox study of: <paper title>"
-```
-
-If `gh` is not authenticated, do NOT attempt the push. Print the exact command for the user to run manually.
-
-Update `metadata.json` with `"github_url": "<url>"`.
+Show the user the file tree of `sandbox/` and the diff/preview of each file. **No confirmation needed at this stage** — nothing is being published yet. Publishing to GitHub is Stage 6's responsibility, after the literature review is also generated.
 
 ## Output
 
 ```
-Sandbox: ~/ai-research-studies/<slug>/sandbox/
-Published: https://github.com/<user>/ai-study-<slug>
-Ready for Stage 5 (case study). Continue?
+Sandbox scaffolded: ~/ai-research-studies/<slug>/sandbox/
+Files: README.md, experiment.py, requirements.txt, utils.py (if needed)
+Ready for Stage 5 (literature review). Continue?
 ```

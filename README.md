@@ -16,8 +16,9 @@ Run `/study-paper https://arxiv.org/abs/<id>` inside Claude Code and the skill w
 | 1 — Interview Prep | `01-interview-prep.md` | ~500 words, 5 sections, opinionated talking points |
 | 2 — Math Deep Dive | `02-math-deep-dive.md` | Long-form derivations, LaTeX math, load-bearing assumptions |
 | 3 — Opinion Capture | `03-opinions.md` | Empty template — **you fill it in**, the skill never fabricates |
-| 4 — Sandbox | `sandbox/` → `ai-study-<slug>` GitHub repo | Minimal CPU-runnable PyTorch experiment probing one paper claim |
-| 5 — Literature Review (final) | `04-literature-review.tex` + `references.bib` | Standalone-compilable LaTeX, citation-ready, drop-in for a survey paper |
+| 4 — Sandbox | `sandbox/` (subdirectory) | Minimal CPU-runnable PyTorch experiment probing one paper claim |
+| 5 — Literature Review | `04-literature-review.tex` + `references.bib` | Standalone-compilable LaTeX, citation-ready, drop-in for a survey paper |
+| 6 — Publish (final delivery) | `ai-study-<slug>` GitHub repo | Entire study dir (all of the above + top-level `README.md`) published as one public repo |
 
 All artifacts land under `~/ai-research-studies/<slug>/`.
 
@@ -26,8 +27,9 @@ All artifacts land under `~/ai-research-studies/<slug>/`.
 - **Interview prep** is for the moments before you're asked "what's interesting about this paper?" — punchy, opinionated, glance-able.
 - **Math deep dive** is for the mathematician in you — derivations, not paraphrase, with explicit "could not derive this" flags.
 - **Opinion capture** keeps your voice yours. The skill prompts the right questions and stops; it does not generate opinions on your behalf.
-- **Sandbox** turns reading into building — one runnable experiment per paper, published to your GitHub as portfolio.
-- **Literature review** is the final research-ready deliverable — pure LaTeX with `\citep`/`\citet`, drop-in suitable for a survey paper, related-work section, or your master lit-review document.
+- **Sandbox** turns reading into building — one runnable experiment per paper, lives inside the study repo as a subdirectory.
+- **Literature review** is the research-ready artifact — pure LaTeX with `\citep`/`\citet`, drop-in suitable for a survey paper, related-work section, or your master lit-review document.
+- **Publish** is the final delivery — the entire study dir (all five artifact types plus a top-level repo README) goes up as a single `ai-study-<slug>` public GitHub repo, citable and shareable.
 
 ## Install
 
@@ -79,14 +81,16 @@ study-paper/
 │   ├── 02-math-deep-dive.md
 │   ├── 03-opinion-capture.md
 │   ├── 04-sandbox.md
-│   └── 05-literature-review.md
+│   ├── 05-literature-review.md
+│   └── 06-publish.md
 └── templates/
     ├── 01-interview-prep.md
     ├── 02-math-deep-dive.md
     ├── 03-opinions.md
     ├── 04-literature-review.tex
     ├── references.bib
-    └── sandbox-README.md
+    ├── sandbox-README.md
+    └── study-README.md
 ```
 
 ## Customization

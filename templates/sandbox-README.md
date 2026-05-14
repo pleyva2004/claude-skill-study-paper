@@ -1,8 +1,8 @@
-# ai-study-{{slug}}
+# Sandbox: {{slug}}
 
-> Sandbox study of **{{title}}** ({{arxiv_url}}).
+> Minimal runnable experiment probing one claim from **{{title}}** ({{arxiv_url}}).
 
-This repo is part of an ongoing series of paper studies. Each repo isolates one claim from a paper and probes it with a minimal, self-contained experiment.
+This is a subdirectory of the larger study repo — see [`../README.md`](../README.md) for the full artifact set (interview prep, math deep dive, lit review, references).
 
 ---
 
@@ -36,13 +36,11 @@ Runs on CPU in <60s by default. {{gpu_note_if_any}}
 ## Files
 
 - `experiment.py` — main script
-- `utils.py` — helpers
 - `requirements.txt` — pinned deps
+- `utils.py` — helpers (if any)
 
 ---
 
 ## Notes
 
 This is sandbox-grade code: optimized for clarity over performance, single-purpose, not production-ready.
-
-Full study notes (math deep dive + case study) live in my private research notes.

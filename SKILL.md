@@ -13,8 +13,9 @@ A multi-stage skill that takes one paper as input and produces five artifacts:
 1. `01-interview-prep.md` — 5-section, ~500-word, opinionated talking-points doc
 2. `02-math-deep-dive.md` — long-form derivations, lemmas, proof sketches, load-bearing assumptions
 3. `03-opinions.md` — structured prompt template the **user** fills in (skill never fabricates opinions)
-4. `sandbox/` → `ai-study-<slug>` published GitHub repo — minimal runnable experiment probing a paper claim
-5. `04-literature-review.tex` (+ `references.bib`) — research-ready LaTeX literature-review entry. Publication-quality, citation-ready, standalone-compilable. **This is the final deliverable.**
+4. `sandbox/` — minimal runnable experiment probing a paper claim (lives as a subdirectory of the study repo, not its own repo)
+5. `04-literature-review.tex` (+ `references.bib`) — research-ready LaTeX literature-review entry. Publication-quality, citation-ready, standalone-compilable.
+6. `ai-study-<slug>` GitHub repo — the **entire study directory** (1-5 above plus `README.md` and `source.pdf`) published as one public repo. **Final delivery.**
 
 All artifacts land under `~/ai-research-studies/<slug>/`.
 
@@ -63,8 +64,9 @@ Nothing. Skill is lightweight until invoked.
 @stages/01-interview-prep.md — Stage 1: interview-prep doc generation
 @stages/02-math-deep-dive.md — Stage 2: math deep dive generation
 @stages/03-opinion-capture.md — Stage 3: opinion template + wait protocol
-@stages/04-sandbox.md — Stage 4: sandbox scaffold + gh repo create
-@stages/05-literature-review.md — Stage 5: research-ready LaTeX lit-review entry (final deliverable)
+@stages/04-sandbox.md — Stage 4: sandbox scaffold (local only, no git)
+@stages/05-literature-review.md — Stage 5: literature-review (LaTeX) generation
+@stages/06-publish.md — Stage 6: publish entire study dir as `ai-study-<slug>` GitHub repo (final delivery)
 
 ## Load on Demand
 @templates/01-interview-prep.md
@@ -73,6 +75,7 @@ Nothing. Skill is lightweight until invoked.
 @templates/04-literature-review.tex
 @templates/references.bib
 @templates/sandbox-README.md
+@templates/study-README.md
 </routing>
 
 <workflow>
@@ -84,8 +87,9 @@ When invoked with input, run sequentially:
 2. **Stage 1 (Interview Prep)** — load `stages/01-interview-prep.md` and `templates/01-interview-prep.md`. Read PDF via `ctx_execute_file`. Generate `01-interview-prep.md`.
 3. **Stage 2 (Math Deep Dive)** — load `stages/02-math-deep-dive.md` and `templates/02-math-deep-dive.md`. Generate `02-math-deep-dive.md` with real derivations.
 4. **Stage 3 (Opinion Capture)** — load `stages/03-opinion-capture.md` and `templates/03-opinions.md`. Drop template, **stop and ask user to fill in**.
-5. **Stage 4 (Sandbox)** — only after Stage 3 returns. Load `stages/04-sandbox.md` and `templates/sandbox-README.md`. Scaffold `sandbox/`, show diff, **confirm before** running `gh repo create`.
+5. **Stage 4 (Sandbox)** — only after Stage 3 returns. Load `stages/04-sandbox.md` and `templates/sandbox-README.md`. Scaffold `sandbox/` locally as a subdirectory of the study dir. **No git operations** — publishing happens in Stage 6.
 6. **Stage 5 (Literature Review)** — load `stages/05-literature-review.md` and `templates/04-literature-review.tex` + `templates/references.bib`. Generate `04-literature-review.tex` and `references.bib`. Compile-test with `pdflatex` if available.
+7. **Stage 6 (Publish — final delivery)** — load `stages/06-publish.md` and `templates/study-README.md`. Write top-level README + `.gitignore` for the study dir. Git init at the study root. Commit all artifacts. Publish entire study dir as `ai-study-<slug>` GitHub repo via `gh` if available, else via SSH after the user creates the empty repo from a pre-filled URL.
 
 ## Resume Logic
 
@@ -93,7 +97,7 @@ If `~/ai-research-studies/<slug>/` already exists: list which artifact files are
 
 ## Confirmation Gates
 
-- Before `gh repo create`: always confirm.
+- Before `gh repo create` or SSH push in Stage 6: always confirm.
 - Before overwriting an existing artifact: always confirm.
 - Before downloading a PDF >50MB: confirm.
 </workflow>
