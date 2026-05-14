@@ -16,7 +16,8 @@ A multi-stage skill that takes one paper as input and produces five artifacts:
 4. `sandbox/` — minimal runnable experiment probing a paper claim (lives as a subdirectory of the study repo, not its own repo)
 5. `04-literature-review.tex` (+ `references.bib`) — research-ready LaTeX literature-review entry. Publication-quality, citation-ready, standalone-compilable.
 6. `05-improvements.tex` + `improvements/` — forward-thinking proposals (math, code, experiments, theory) with runnable Python prototypes. Compiles to its own PDF. **The only artifact Claude is allowed to draft on the user's behalf as a substantive proposal.**
-7. `<slug>` GitHub repo — the **entire study directory** (1-6 above plus `README.md` and `source.pdf`) published as one public repo. **Final delivery.**
+7. `learning-map/` — three-graph interactive learning map (paper graph + improvements graph; links to the shared foundations graph at `pleyva2004/math-foundations`). Every concept has a `.md` page, a runnable `.py` code analog, a node in the mermaid DAG, a notebook cell, and an HTML force-graph entry. Multiple skill-level entry points (novice → researcher).
+8. `<slug>` GitHub repo — the **entire study directory** (1-7 above plus `README.md` and `source.pdf`) published as one public repo. **Final delivery.**
 
 All artifacts land under `~/ai-research-studies/<slug>/`.
 
@@ -68,7 +69,8 @@ Nothing. Skill is lightweight until invoked.
 @stages/04-sandbox.md — Stage 4: sandbox scaffold (local only, no git)
 @stages/05-literature-review.md — Stage 5: literature-review (LaTeX) generation, delegates LaTeX formatting rules to the `write-latex` skill
 @stages/06-suggest-improvements.md — Stage 6: forward-looking proposals + runnable Python prototypes (`05-improvements.tex` + `improvements/`)
-@stages/07-publish.md — Stage 7: publish entire study dir as `<slug>` GitHub repo (final delivery)
+@stages/07-learning-map.md — Stage 7: three-graph interactive learning map (paper + improvements graphs; foundations linked by URL)
+@stages/08-publish.md — Stage 8: publish entire study dir as `<slug>` GitHub repo (final delivery)
 
 ## Load on Demand
 @templates/01-interview-prep.md
@@ -81,6 +83,10 @@ Nothing. Skill is lightweight until invoked.
 @templates/sandbox-README.md
 @templates/study-README.md
 @templates/render-workflow.yml
+@templates/concept.md
+@templates/concept-code.py
+@templates/learning-map-README.md
+@templates/learning-map-manifest.json
 </routing>
 
 <workflow>
@@ -95,7 +101,8 @@ When invoked with input, run sequentially:
 5. **Stage 4 (Sandbox)** — only after Stage 3 returns. Load `stages/04-sandbox.md` and `templates/sandbox-README.md`. Scaffold `sandbox/` locally as a subdirectory of the study dir. **No git operations** — publishing happens in Stage 6.
 6. **Stage 5 (Literature Review)** — load `stages/05-literature-review.md` and `templates/04-literature-review.tex` + `templates/references.bib`. Generate `04-literature-review.tex` and `references.bib`. Compile-test with `pdflatex` if available.
 7. **Stage 6 (Suggest Improvements)** — load `stages/06-suggest-improvements.md` and `templates/05-improvements.tex` + `templates/improvements-README.md`. Draft `05-improvements.tex` with four `\section*` blocks (math, code, experiments, theory) and write runnable Python prototypes to `improvements/` for any code proposals feasible at sandbox scale. User refines before Stage 7.
-8. **Stage 7 (Publish — final delivery)** — load `stages/07-publish.md` and `templates/study-README.md`. Write top-level README + `.gitignore` for the study dir. Git init at the study root. Commit all artifacts (including `05-improvements.tex` and `improvements/`). Publish entire study dir as `<slug>` GitHub repo via `gh` if available, else via SSH after the user creates the empty repo from a pre-filled URL.
+8. **Stage 7 (Interactive Learning Map)** — load `stages/07-learning-map.md` and `templates/{concept.md,concept-code.py,learning-map-README.md,learning-map-manifest.json}`. Build TWO local graphs under `learning-map/`: `paper/` (concepts from `02-math-deep-dive.md`) and `improvements/` (concepts from `05-improvements.tex`). Every concept has an aligned `.py` file — no exceptions, including improvement concepts. Foundation prereqs cross-link by stable URL to `pleyva2004/math-foundations`. Produce three views per graph (mermaid in README, Jupyter notebook, D3 HTML).
+9. **Stage 8 (Publish — final delivery)** — load `stages/08-publish.md` and `templates/study-README.md`. Write top-level README + `.gitignore` for the study dir. Git init at the study root. Commit all artifacts (including `learning-map/` paper + improvements subdirs). Publish entire study dir as `<slug>` GitHub repo via `gh` if available, else via SSH after the user creates the empty repo from a pre-filled URL.
 
 ## Resume Logic
 
@@ -103,7 +110,7 @@ If `~/ai-research-studies/<slug>/` already exists: list which artifact files are
 
 ## Confirmation Gates
 
-- Before `gh repo create` or SSH push in Stage 7: always confirm.
+- Before `gh repo create` or SSH push in Stage 8: always confirm.
 - Before overwriting an existing artifact: always confirm.
 - Before downloading a PDF >50MB: confirm.
 </workflow>

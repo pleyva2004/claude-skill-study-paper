@@ -1,0 +1,19 @@
+{
+  "version": "0.1",
+  "graph": "paper | improvements",
+  "description": "Per-graph concept manifest. The skill generates one of these for paper/ and one for improvements/.",
+  "concepts": [
+    {
+      "id": "01",
+      "slug": "example-concept-slug",
+      "title": "Example Concept Title",
+      "level": "paper",
+      "prereqs": [
+        "https://github.com/pleyva2004/math-foundations/blob/main/concepts/25-expectation.md",
+        "02-other-paper-concept"
+      ],
+      "summary": "One-sentence summary of the concept. Used in the README mermaid graph hover-text and the HTML detail panel."
+    }
+  ],
+  "notes": "Prereqs are either: (a) a fully-qualified GitHub URL pointing into the math-foundations repo, or (b) a local '<NN>-<slug>' identifier referring to another concept in the same per-graph manifest. The skill validates that every (b)-style prereq resolves to an existing local node."
+}
