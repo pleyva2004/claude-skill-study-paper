@@ -11,11 +11,15 @@ This is the **final deliverable** of the workflow. It is not a blog post or case
 - `03-opinions.md` — for the discussion / critique paragraphs (used verbatim or paraphrased; if empty, the discussion section gets a `% TODO` marker rather than fabrication)
 - `metadata.json` — for arxiv ID, authors, year, title, github links
 
+## LaTeX Conventions
+
+The `.tex` output **must follow the [`write-latex`](../../write-latex/SKILL.md) skill's rules**: `pdflatex`-clean, no `fontspec`, `\section*` by default (no numbering unless requested), comments only inside `\iffalse ... \fi`, no output other than valid LaTeX. The bundled template (`templates/04-literature-review.tex`) already conforms; preserve those conventions when filling it in.
+
 ## Method
 
 1. Load `templates/04-literature-review.tex`.
 2. Read all four prior artifacts via `ctx_execute_file` (they may be long).
-3. Generate the LaTeX document. Populate every section. Replace every placeholder.
+3. Generate the LaTeX document **per write-latex rules**. Populate every section. Replace every placeholder.
 4. Generate or augment `references.bib` with the entries cited (the paper itself + 5–10 most-relevant prior works the paper engages with — drawn from the math deep dive's "Connections" section).
 5. Write `~/ai-research-studies/<slug>/04-literature-review.tex` and `~/ai-research-studies/<slug>/references.bib`.
 6. Smoke-test compile if `pdflatex` is available: `pdflatex -interaction=nonstopmode 04-literature-review.tex` (in sandbox via `ctx_execute`). Report compile errors but do not fail the stage on them.

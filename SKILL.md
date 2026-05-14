@@ -65,7 +65,7 @@ Nothing. Skill is lightweight until invoked.
 @stages/02-math-deep-dive.md — Stage 2: math deep dive generation
 @stages/03-opinion-capture.md — Stage 3: opinion template + wait protocol
 @stages/04-sandbox.md — Stage 4: sandbox scaffold (local only, no git)
-@stages/05-literature-review.md — Stage 5: literature-review (LaTeX) generation
+@stages/05-literature-review.md — Stage 5: literature-review (LaTeX) generation, delegates LaTeX formatting rules to the `write-latex` skill
 @stages/06-publish.md — Stage 6: publish entire study dir as `ai-study-<slug>` GitHub repo (final delivery)
 
 ## Load on Demand
