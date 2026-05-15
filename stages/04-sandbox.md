@@ -2,6 +2,27 @@
 
 **Goal:** Generate a minimal runnable experiment probing one claim from the paper. **Local scaffold only — no git operations.** Publishing happens in Stage 6.
 
+## Step 0: Read the hardware tier
+
+Load `~/ai-research-studies/<slug>/metadata.json` and read `hardware_tier`, `hardware_tier_description`, `hardware_recommendations`. These come from the pre-stage 00.0 hardware detection (see `stages/00-ingest.md`).
+
+**Size every sandbox experiment to the tier.** The `recommendations` block tells you the ceiling: `max_model_params`, `max_lora_base_params`, `training_budget_minutes`, and `recommended_frameworks`. Do not exceed these. The orchestrator should bake these constraints into any subagent prompts that scaffold the sandbox.
+
+Concrete tier-to-sandbox mapping:
+
+| Tier | Sandbox model size | Frameworks | Training budget |
+|------|--------------------|------------|-----------------|
+| `tier_cpu_only`  | ≤100 K params, numpy only | numpy | ~5 min |
+| `tier_mid_cpu`   | ≤1 M params | numpy + torch CPU | ~30 min |
+| `tier_low_gpu`   | ≤5 M params from scratch; LoRA on <500 M | torch (MPS/CUDA) + numpy fallback | ~1 hr |
+| `tier_mid_gpu`   | ≤50 M params from scratch (TinyStories class); LoRA on 1.5-3 B | torch (MPS/CUDA) + MLX (Apple) + numpy fallback | ~4 hr |
+| `tier_high_gpu`  | ≤300 M params from scratch; LoRA on 7-13 B; int4 inference on 70 B | torch + MLX + transformers + peft | ~8 hr |
+| `tier_extreme`   | 1-3 B from scratch; LoRA on 30-70 B | torch + accelerate + multi-GPU | days |
+
+**Always include a numpy fallback** for the math-clean version of any experiment, even at higher tiers — keeps the sandbox runnable on any reader's laptop. At higher tiers, the numpy demo coexists with a "real" PyTorch/MLX/transformers script that exercises the actual hardware.
+
+If the paper category in Step A would naturally need more compute than the tier allows (e.g. RLHF on a 7 B model when tier is `tier_low_gpu`), pick a smaller proxy that demonstrates the same algorithmic claim and clearly note the simplification in `sandbox/README.md`.
+
 ## Step A: Categorize
 
 Determine paper category from `01-interview-prep.md` and metadata. Map to sandbox archetype:

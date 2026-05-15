@@ -1,0 +1,2 @@
+# Hardware-detection cache is machine-specific; do not commit.
+hardware.json

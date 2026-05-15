@@ -12,7 +12,8 @@ Run `/study-paper https://arxiv.org/abs/<id>` inside Claude Code and the skill w
 
 | Stage | Output | Format |
 |------|--------|--------|
-| 0 — Ingest | `source.pdf`, `metadata.json` | Downloads paper, extracts metadata, indexes text |
+| **00.0 — Hardware detection (one-time per machine)** | `~/.claude/skills/study-paper/cache/hardware.json` | Auto-detects CPU / RAM / GPU / Apple unified memory; classifies into a sizing tier (`tier_cpu_only` → `tier_extreme`); cached 30 days. Stage 4 reads it to scale sandbox experiments to the available compute. Re-run with `python3 ~/.claude/skills/study-paper/templates/detect-hardware.py --force` to refresh. |
+| 0 — Ingest | `source.pdf`, `metadata.json` | Downloads paper, extracts metadata, indexes text. `metadata.json` also carries the hardware tier from pre-stage 00.0. |
 | 1 — Interview Prep | `01-interview-prep.md` | ~500 words, 5 sections, opinionated talking points |
 | 2 — Math Deep Dive | `02-math-deep-dive.md` | Long-form derivations, LaTeX math, load-bearing assumptions |
 | 3 — Opinion Capture | `03-opinions.md` | Empty template — **you fill it in**, the skill never fabricates |

@@ -91,6 +91,8 @@ Nothing. Skill is lightweight until invoked.
 @templates/tour.tex
 @templates/tour.ipynb
 @templates/proof.tex
+@templates/detect-hardware.py
+@templates/notation-extractor.py
 </routing>
 
 <workflow>
@@ -98,7 +100,8 @@ Nothing. Skill is lightweight until invoked.
 
 When invoked with input, run sequentially:
 
-1. **Stage 0 (Ingest)** — load `stages/00-ingest.md`. Resolve input, create `~/ai-research-studies/<slug>/`, write `metadata.json`, download/locate `source.pdf`.
+0. **Pre-stage 00.0 (Hardware detection)** — once per machine, run `python3 ~/.claude/skills/study-paper/templates/detect-hardware.py --summary`. The script auto-detects OS / CPU / RAM / GPU / unified memory / installed ML libraries, classifies into a sizing tier (`tier_cpu_only` → `tier_extreme`), and caches the result at `~/.claude/skills/study-paper/cache/hardware.json` for 30 days. Surface the tier to the user; copy `tier`, `tier_description`, and `recommendations` into the per-study `metadata.json`. Stage 4 reads these to size sandbox experiments. Skip silently if the cache is fresh.
+1. **Stage 0 (Ingest)** — load `stages/00-ingest.md`. Resolve input, create `~/ai-research-studies/<slug>/`, write `metadata.json` (including hardware fields from pre-stage 00.0), download/locate `source.pdf`.
 2. **Stage 1 (Interview Prep)** — load `stages/01-interview-prep.md` and `templates/01-interview-prep.md`. Read PDF via `ctx_execute_file`. Generate `01-interview-prep.md`.
 3. **Stage 2 (Math Deep Dive)** — load `stages/02-math-deep-dive.md` and `templates/02-math-deep-dive.md`. Generate `02-math-deep-dive.md` with real derivations. Auto-prepends a `## Notation key` subsection sourced from the [math-foundations glossary](https://github.com/pleyva2004/math-foundations/blob/main/NOTATION.md) via `templates/notation-extractor.py`.
 4. **Stage 3 (Opinion Capture)** — load `stages/03-opinion-capture.md` and `templates/03-opinions.md`. Drop template, **stop and ask user to fill in**.

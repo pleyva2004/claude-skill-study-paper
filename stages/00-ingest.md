@@ -2,6 +2,17 @@
 
 **Goal:** Resolve user input into a normalized study directory and a readable PDF, with metadata captured.
 
+## Pre-stage 00.0 — Hardware detection (cache-aware)
+
+Before resolving input, ensure a hardware sizing tier is available so Stage 4 can scale the sandbox to the user's machine. **Run this exactly once per machine**; subsequent invocations re-use the cache.
+
+1. Check `~/.claude/skills/study-paper/cache/hardware.json`. If it exists and is younger than 30 days, skip to step 4.
+2. Run `python3 ~/.claude/skills/study-paper/templates/detect-hardware.py --summary`. This detects OS, CPU, RAM, GPU/accelerator + VRAM (or Apple unified memory), and installed ML libraries; classifies into one of `tier_cpu_only | tier_mid_cpu | tier_low_gpu | tier_mid_gpu | tier_high_gpu | tier_extreme`; and writes the cache.
+3. Surface the result to the user with one short line, e.g. "Detected: Apple M4 Pro, 48 GB unified → `tier_high_gpu`. Sandbox experiments will be sized accordingly. Run `python3 ~/.claude/skills/study-paper/templates/detect-hardware.py --force` to refresh."
+4. Load the cache. Carry `tier`, `tier_description`, and `recommendations` (a dict containing `max_model_params`, `max_lora_base_params`, `training_budget_minutes`, `recommended_frameworks`, `guidance`) into the per-study `metadata.json` so downstream stages don't have to re-derive.
+
+The user can override the auto-detected tier by editing `metadata.json` directly (e.g. they want a CPU-only sandbox even though they have a GPU). A manual `hardware_tier` field in `metadata.json` wins over the cache.
+
 ## Input Resolution
 
 Branch on input shape:
@@ -38,9 +49,20 @@ Write `metadata.json`:
   "source_url": "<arxiv-abs-or-null>",
   "pdf_path": "~/ai-research-studies/<slug>/source.pdf",
   "started": "<YYYY-MM-DD>",
-  "stages_completed": []
+  "stages_completed": [],
+  "hardware_tier": "<tier_name from cache>",
+  "hardware_tier_description": "<tier_description from cache>",
+  "hardware_recommendations": {
+    "max_model_params": <int>,
+    "max_lora_base_params": <int>,
+    "training_budget_minutes": <int>,
+    "recommended_frameworks": [...],
+    "guidance": "..."
+  }
 }
 ```
+
+The `hardware_tier`, `hardware_tier_description`, and `hardware_recommendations` fields come from the cache loaded in pre-stage 00.0. Stage 4 reads them to size sandbox experiments.
 
 ## PDF Acquisition
 
