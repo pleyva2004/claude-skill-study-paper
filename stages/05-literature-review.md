@@ -15,6 +15,21 @@ This is the **final deliverable** of the workflow. It is not a blog post or case
 
 The `.tex` output **must follow the [`write-latex`](../../write-latex/SKILL.md) skill's rules**: `pdflatex`-clean, no `fontspec`, `\section*` by default (no numbering unless requested), comments only inside `\iffalse ... \fi`, no output other than valid LaTeX. The bundled template (`templates/04-literature-review.tex`) already conforms; preserve those conventions when filling it in.
 
+## Notation prelude (mandatory)
+
+The `.tex` output **must** include a `\section*{Notation}` block placed **between** `\end{abstract}` and `\section{Background and Motivation}`. This block is a small `longtable` (or `tabular` if the symbol list is short) listing every symbol the paper uses, sourced from the foundations glossary.
+
+Rules:
+- The block must include an `\href` reference to the canonical PDF:
+  `\href{https://github.com/pleyva2004/math-foundations/blob/main/notation.pdf}{Foundations Glossary}`
+- Pull rows from `notation.json` — do **not** redefine symbols inline. Symbols missing from the glossary go in the table with a `% TODO add to foundations` comment on that row so the gap is visible upstream.
+- Generation is automated: run
+  `python3 templates/notation-extractor.py 04-literature-review.tex notation.json --format latex`
+  and paste the resulting `tabular`/`longtable` block into the `Notation` section.
+- Keep this in sync with the `## Notation key` subsection emitted by Stage 2 — both are derived from the same `notation.json` and should agree symbol-for-symbol.
+
+If `longtable` is used, ensure `\usepackage{longtable}` is in the preamble (the bundled template already loads it via the standard amsmath stack; add it if missing).
+
 ## Method
 
 1. Load `templates/04-literature-review.tex`.

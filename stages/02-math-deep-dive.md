@@ -8,6 +8,22 @@
 
 The user identifies as a pure mathematician. Treat them as one.
 
+## Notation prelude (mandatory)
+
+The math deep dive output **must** begin — immediately after the "Setup & Notation" section — with a `## Notation key` subsection. This subsection is a small markdown table listing every symbol the paper uses, sourced from the foundations glossary at:
+
+> https://github.com/pleyva2004/math-foundations/blob/main/NOTATION.md
+> (canonical JSON: `notation.json`; PDF: `notation.pdf`)
+
+Rules:
+- The foundations glossary is the **source of truth**. Reuse the `latex`, `read_aloud`, and `meaning` fields verbatim — never fabricate a duplicate inline definition.
+- Symbols **not yet** in the foundations glossary must be included in the table AND flagged with an HTML comment so they propagate upstream:
+  `| $\mathcal{X}$ | "cal X" | Decision-point set <!-- TODO add to foundations --> |`
+- Generation is automated: run `templates/notation-extractor.py <path-to-02-math-deep-dive.md> notation.json` and paste the resulting markdown table into the `## Notation key` subsection.
+- The subsection must include a one-liner linking back to the glossary so readers can find the full reference.
+
+The literature-review stage (Stage 5) ships an analogous LaTeX prelude — keep the two in sync.
+
 ## Method
 
 1. `ctx_search` the indexed paper for: equations, theorems, lemmas, proofs, algorithms, definitions.
