@@ -42,6 +42,10 @@ venv/
 *.fdb_latexmk
 *.synctex.gz
 04-literature-review.pdf
+05-improvements.pdf
+interview-handout.pdf
+learning-map/tour.pdf
+proofs/*.pdf
 ```
 
 ## Step B: Git init + commit
@@ -56,7 +60,9 @@ git add 01-interview-prep.md 02-math-deep-dive.md 03-opinions.md \
         .github/workflows/render.yml \
         sandbox/README.md sandbox/experiment.py sandbox/requirements.txt \
         improvements/README.md improvements/requirements.txt improvements/*.py \
-        learning-map/
+        learning-map/ \
+        learning-map/tour.md learning-map/tour.tex learning-map/tour.ipynb \
+        proofs/
 git commit -m "Initial commit: full study artifacts for arxiv:<id>"
 ```
 

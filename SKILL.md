@@ -87,6 +87,10 @@ Nothing. Skill is lightweight until invoked.
 @templates/concept-code.py
 @templates/learning-map-README.md
 @templates/learning-map-manifest.json
+@templates/tour.md
+@templates/tour.tex
+@templates/tour.ipynb
+@templates/proof.tex
 </routing>
 
 <workflow>
@@ -96,12 +100,12 @@ When invoked with input, run sequentially:
 
 1. **Stage 0 (Ingest)** — load `stages/00-ingest.md`. Resolve input, create `~/ai-research-studies/<slug>/`, write `metadata.json`, download/locate `source.pdf`.
 2. **Stage 1 (Interview Prep)** — load `stages/01-interview-prep.md` and `templates/01-interview-prep.md`. Read PDF via `ctx_execute_file`. Generate `01-interview-prep.md`.
-3. **Stage 2 (Math Deep Dive)** — load `stages/02-math-deep-dive.md` and `templates/02-math-deep-dive.md`. Generate `02-math-deep-dive.md` with real derivations.
+3. **Stage 2 (Math Deep Dive)** — load `stages/02-math-deep-dive.md` and `templates/02-math-deep-dive.md`. Generate `02-math-deep-dive.md` with real derivations. Auto-prepends a `## Notation key` subsection sourced from the [math-foundations glossary](https://github.com/pleyva2004/math-foundations/blob/main/NOTATION.md) via `templates/notation-extractor.py`.
 4. **Stage 3 (Opinion Capture)** — load `stages/03-opinion-capture.md` and `templates/03-opinions.md`. Drop template, **stop and ask user to fill in**.
 5. **Stage 4 (Sandbox)** — only after Stage 3 returns. Load `stages/04-sandbox.md` and `templates/sandbox-README.md`. Scaffold `sandbox/` locally as a subdirectory of the study dir. **No git operations** — publishing happens in Stage 6.
-6. **Stage 5 (Literature Review)** — load `stages/05-literature-review.md` and `templates/04-literature-review.tex` + `templates/references.bib`. Generate `04-literature-review.tex` and `references.bib`. Compile-test with `pdflatex` if available.
+6. **Stage 5 (Literature Review)** — load `stages/05-literature-review.md` and `templates/04-literature-review.tex` + `templates/references.bib`. Generate `04-literature-review.tex` and `references.bib`. Auto-prepends a `\section*{Notation}` block sourced from the math-foundations glossary via `templates/notation-extractor.py --format latex`. Compile-test with `pdflatex` if available.
 7. **Stage 6 (Suggest Improvements)** — load `stages/06-suggest-improvements.md` and `templates/05-improvements.tex` + `templates/improvements-README.md`. Draft `05-improvements.tex` with four `\section*` blocks (math, code, experiments, theory) and write runnable Python prototypes to `improvements/` for any code proposals feasible at sandbox scale. User refines before Stage 7.
-8. **Stage 7 (Interactive Learning Map)** — load `stages/07-learning-map.md` and `templates/{concept.md,concept-code.py,learning-map-README.md,learning-map-manifest.json}`. Build TWO local graphs under `learning-map/`: `paper/` (concepts from `02-math-deep-dive.md`) and `improvements/` (concepts from `05-improvements.tex`). Every concept has an aligned `.py` file — no exceptions, including improvement concepts. Foundation prereqs cross-link by stable URL to `pleyva2004/math-foundations`. Produce three views per graph (mermaid in README, Jupyter notebook, D3 HTML).
+8. **Stage 7 (Interactive Learning Map)** — load `stages/07-learning-map.md` and `templates/{concept.md,concept-code.py,learning-map-README.md,learning-map-manifest.json,tour.md,tour.tex,tour.ipynb,proof.tex}`. Build TWO local graphs under `learning-map/`: `paper/` (concepts from `02-math-deep-dive.md`) and `improvements/` (concepts from `05-improvements.tex`). Every concept has an aligned `.py` file — no exceptions, including improvement concepts. Foundation prereqs cross-link by stable URL to `pleyva2004/math-foundations`. Produce three views per graph (mermaid in README, Jupyter notebook, D3 HTML), **and produces tour artifacts (md/tex/ipynb) plus per-improvement proof OR measurement validation file** (`proofs/<slug>.tex` for math/theoretical proposals, extended `improvements/<slug>.py` with `measure()` for code/experimental proposals — exactly one per improvement, per the heuristic in the stage doc).
 9. **Stage 8 (Publish — final delivery)** — load `stages/08-publish.md` and `templates/study-README.md`. Write top-level README + `.gitignore` for the study dir. Git init at the study root. Commit all artifacts (including `learning-map/` paper + improvements subdirs). Publish entire study dir as `<slug>` GitHub repo via `gh` if available, else via SSH after the user creates the empty repo from a pre-filled URL.
 
 ## Resume Logic
