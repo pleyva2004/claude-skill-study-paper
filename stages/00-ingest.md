@@ -17,6 +17,19 @@ The user can override the auto-detected tier by editing `metadata.json` directly
 
 Branch on input shape:
 
+### No arguments → discovery
+
+When `/study-paper` is invoked with no URL/PDF/slug, auto-discover a paper.
+
+1. Run `python3 ~/.claude/skills/study-paper/templates/discover-paper.py --pretty`. The script returns 5 candidates from the last 30 days (default 3 matched to your historical interests in `~/ai-research-studies/` + 2 explore-direction), deduped against every prior study's `arxiv_id` and `title`.
+2. Show the candidates verbatim to the user with the prompt: "Reply with 1-5 to study, `next` for more, `topic <keywords>` to refine, or paste a URL/PDF path directly."
+3. On user reply:
+   - **Number 1-5** → re-run with `--max-results 5` (no `--pretty`) to get JSON; pull the chosen entry's `abs_url`; feed into the arxiv URL branch below.
+   - **`next`** → re-run with `--offset 5` (or accumulating offset) and present the next page.
+   - **`topic <keywords>`** → re-run with `--topic "<keywords>"` and re-present.
+   - **Pasted URL/PDF/slug** → fall through to the appropriate branch below.
+4. If the script reports `exhausted: true` (zero new candidates even after expanding to 90 days), tell the user and ask for a URL.
+
 ### Arxiv URL (e.g. `https://arxiv.org/abs/2407.08608`)
 1. Normalize: strip version suffix (`v1`, `v2`), strip trailing slash, ensure `abs/` form.
 2. Extract arxiv ID (e.g. `2407.08608`).

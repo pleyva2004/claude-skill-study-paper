@@ -54,7 +54,7 @@ Rigorous-but-fast research mentor. Pure-mathematician framing — definitions, l
 | `/study-paper <arxiv-url>` | Full pipeline starting at Stage 0 (Ingest) |
 | `/study-paper <local.pdf>` | Full pipeline using local PDF, slug derived from filename or first heading |
 | `/study-paper <slug>` | Resume an existing study; skill detects which stages have artifacts and offers to skip/redo |
-| `/study-paper` (no args) | Asks user for input |
+| `/study-paper` (no args) | **Discovers a relevant paper** from the last 30 days; presents 5 candidates (3 matched to your historical interests in `~/ai-research-studies/`, 2 explore-direction). Reply with a number to start the full pipeline, `next` for more, `topic <keywords>` to refine, or paste a URL/PDF directly. |
 </commands>
 
 <routing>
@@ -92,6 +92,7 @@ Nothing. Skill is lightweight until invoked.
 @templates/tour.ipynb
 @templates/proof.tex
 @templates/detect-hardware.py
+@templates/discover-paper.py
 @templates/notation-extractor.py
 </routing>
 
@@ -101,6 +102,7 @@ Nothing. Skill is lightweight until invoked.
 When invoked with input, run sequentially:
 
 0. **Pre-stage 00.0 (Hardware detection)** — once per machine, run `python3 ~/.claude/skills/study-paper/templates/detect-hardware.py --summary`. The script auto-detects OS / CPU / RAM / GPU / unified memory / installed ML libraries, classifies into a sizing tier (`tier_cpu_only` → `tier_extreme`), and caches the result at `~/.claude/skills/study-paper/cache/hardware.json` for 30 days. Surface the tier to the user; copy `tier`, `tier_description`, and `recommendations` into the per-study `metadata.json`. Stage 4 reads these to size sandbox experiments. Skip silently if the cache is fresh.
+0.1. **Pre-stage 00.1 (Paper discovery — only when invoked with no args)** — run `python3 ~/.claude/skills/study-paper/templates/discover-paper.py --pretty` to surface 5 recent arxiv candidates (3 matched to historical interests + 2 explore), deduped against `~/ai-research-studies/*/metadata.json`. User picks a number (or paginates with `next`, refines with `topic <kw>`, or pastes a URL). The chosen `abs_url` becomes the input to Stage 0 below. Skipped entirely when the user invokes with a URL/PDF/slug.
 1. **Stage 0 (Ingest)** — load `stages/00-ingest.md`. Resolve input, create `~/ai-research-studies/<slug>/`, write `metadata.json` (including hardware fields from pre-stage 00.0), download/locate `source.pdf`.
 2. **Stage 1 (Interview Prep)** — load `stages/01-interview-prep.md` and `templates/01-interview-prep.md`. Read PDF via `ctx_execute_file`. Generate `01-interview-prep.md`.
 3. **Stage 2 (Math Deep Dive)** — load `stages/02-math-deep-dive.md` and `templates/02-math-deep-dive.md`. Generate `02-math-deep-dive.md` with real derivations. Auto-prepends a `## Notation key` subsection sourced from the [math-foundations glossary](https://github.com/pleyva2004/math-foundations/blob/main/NOTATION.md) via `templates/notation-extractor.py`.
