@@ -23,6 +23,44 @@ Concrete tier-to-sandbox mapping:
 
 If the paper category in Step A would naturally need more compute than the tier allows (e.g. RLHF on a 7 B model when tier is `tier_low_gpu`), pick a smaller proxy that demonstrates the same algorithmic claim and clearly note the simplification in `sandbox/README.md`.
 
+## Step 0.5: Plan the two-level sandbox (MANDATORY)
+
+Every Stage 4 sandbox must produce **two levels**:
+
+- **Level 1 (CPU baseline)** — pure numpy, runs anywhere, fast (<5 min total). Always present, regardless of tier. Files use the prefixes `toy_*.py` (tabular MDP demos) and `tiny_*.py` (numpy tiny-GPT demos).
+- **Level 2 (hardware-upsized)** — sized to the detected tier (per the table below). Demonstrates the SAME algorithm at a scale where qualitative results match what would happen with a frontier model. Files use the prefixes `torch_*.py` (torch + MPS/CUDA), `mlx_*.py` (optional Mac-native), `real_*.py` (LoRA on a real LM via transformers + peft).
+
+### Naming conventions
+
+| Prefix | Level | Purpose |
+|--------|-------|---------|
+| `toy_*.py` | 1 (CPU) | Tabular MDP toys; pure numpy; <30s. |
+| `tiny_*.py` | 1 (CPU) | Numpy tiny-GPT-class demos; <300s. |
+| `torch_*.py` | 2 (upsized) | torch + MPS/CUDA; tier-appropriate model size. |
+| `mlx_*.py` | 2 (Mac-native, optional) | MLX-native parallel cell for Apple silicon. |
+| `real_*.py` | 2 (highest tiers) | LoRA on a real LM (transformers + peft); needs real weights. |
+
+### Per-tier script mandate
+
+| Tier | Level 1 (always) | Level 2 (when tier supports) |
+|------|------------------|------------------------------|
+| `tier_cpu_only`  | `toy_*.py` + `tiny_*.py` | (none — Level 1 IS the only level) |
+| `tier_mid_cpu`   | `toy_*.py` + `tiny_*.py` | (none — Level 1 only) |
+| `tier_low_gpu`   | `toy_*.py` + `tiny_*.py` | `torch_*.py` (≤5M params) |
+| `tier_mid_gpu`   | `toy_*.py` + `tiny_*.py` | `torch_*.py` (~30M) + `real_*.py` (LoRA on ≤3B) |
+| `tier_high_gpu`  | `toy_*.py` + `tiny_*.py` | `torch_*.py` (~100M) + `mlx_*.py` + `real_*.py` (LoRA on 7-13B) |
+| `tier_extreme`   | `toy_*.py` + `tiny_*.py` | All Level-2 forms, multi-GPU options |
+
+### Smoke-test contract for Level 2
+
+Subagents in any given Stage 4 dispatch cannot reliably exercise the GPU (Linux box, no Mac access). So:
+- **Level 1 scripts MUST run end-to-end during the agent's smoke-test.**
+- **Level 2 scripts MUST parse cleanly (`ast.parse`) and either run with `--steps 1` successfully OR print a clear "install X / run on a GPU host" message and exit 0.** They are NOT required to train during agent runtime — the user runs them on their primary device.
+
+### Skeletons available
+
+Subagents can copy from `~/.claude/skills/study-paper/templates/sandbox-torch-skeleton.py` (torch + MPS/CUDA + numpy fallback) and `~/.claude/skills/study-paper/templates/sandbox-real-lm-skeleton.py` (LoRA on real LM via transformers + peft). Both wrap heavy imports in try/except so they parse on Linux without GPU deps.
+
 ## Step A: Categorize
 
 Determine paper category from `01-interview-prep.md` and metadata. Map to sandbox archetype:

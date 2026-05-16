@@ -18,7 +18,7 @@ Run `/study-paper https://arxiv.org/abs/<id>` inside Claude Code and the skill w
 | 1 — Interview Prep | `01-interview-prep.md` | ~500 words, 5 sections, opinionated talking points |
 | 2 — Math Deep Dive | `02-math-deep-dive.md` | Long-form derivations, LaTeX math, load-bearing assumptions |
 | 3 — Opinion Capture | `03-opinions.md` | Empty template — **you fill it in**, the skill never fabricates |
-| 4 — Sandbox | `sandbox/` (subdirectory) | Minimal CPU-runnable PyTorch experiment probing one paper claim |
+| 4 — Sandbox | `sandbox/` (subdirectory) | **Two-level**: Level 1 = `toy_*.py` + `tiny_*.py` (CPU/numpy, runs anywhere) + Level 2 = `torch_*.py` / `real_*.py` (hardware-upsized to the tier from pre-stage 00.0). |
 | 5 — Literature Review | `04-literature-review.tex` + `references.bib` | Standalone-compilable LaTeX, citation-ready, drop-in for a survey paper |
 | 6 — Suggest Improvements | `05-improvements.tex` + `improvements/` | Forward-looking proposals across math, code, experiments, and theory — with runnable Python prototypes. The one artifact Claude is allowed to draft on your behalf. |
 | 7 — Publish (final delivery) | `<slug>` GitHub repo (with CI-rendered PDFs) | Entire study dir (all of the above + top-level `README.md` + `.github/workflows/render.yml`) published as one public repo. GitHub Actions auto-compiles every `.tex` → `pdfs/*.pdf` on every push. |
